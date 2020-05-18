@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-
+import { connect } from 'react-redux';
+import { addTodoList } from './action'
 class ToDoAdd extends Component {
 
     constructor(props) {
@@ -25,10 +26,24 @@ class ToDoAdd extends Component {
                     value={this.state.newItem}
                     onChange={e => this.updateInput('newItem', e.target.value)}
                 />
-                <button onClick={() => {this.props.addItem(this.state.newItem); this.setState({newItem: ''})}}><i>추가</i></button>
+                <button onClick={() => {this.props.addTodoList({id :  Math.random(), value : this.state.newItem})}}><i>추가</i></button>
             </div>
         )
     }
 }
 
+const mapStateToProps = (state) => { 
+    return { 
+        list : state.todo.list,
+        
+    } 
+  } 
+const mapDispatchToProps = (dispatch) =>{ 
+    return { 
+      addTodoList: (value => dispatch(addTodoList(value))),
+        
+    }; 
+  } 
+
+  ToDoAdd = connect(mapStateToProps, mapDispatchToProps)(ToDoAdd); 
 export default ToDoAdd;
